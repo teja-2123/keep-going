@@ -1,11 +1,28 @@
-node {
-    stage('SCM') {
-     git branch: 'main', url: 'https://github.com/teja-2123/keep-going.git' 
+pipeline {
+  agent any
+  stages {
+    stage('Example Build') {
+      options {
+        timeout(time: 10, unit: 'SECONDS')
+      }
+     input {
+        message "Enter something"
+        ok "Submit"
+        parameters {
+          string(defaultValue: 'Thug', name: 'FIRST_NAME')
+        }
+      }
+      steps {
+        sh 'echo Hello World'
+      }
     }
-    stage('mvn'){
-    sh 'mvn package'
+    stage('Example Deploy') {
+      when {
+        branch 'main'
+      }
+      steps {
+        sh 'echo Done!'
+      }
     }
-    stage('development'){
-    archiveArtifacts artifacts: 'target\\messageUtil-1.0.jar', followSymlinks: false
-    }
+  }
 }
