@@ -2,4 +2,10 @@ node {
     stage('SCM') {
      git branch: 'main', url: 'https://github.com/teja-2123/keep-going.git' 
     }
+    stage('mvn'){
+    sh 'mvn package'
+    }
+    stage('development'){
+    archiveArtifacts artifacts: 'target\\messageUtil-1.0.jar', followSymlinks: false
+    }
 }
