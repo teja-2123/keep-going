@@ -4,7 +4,24 @@ pipeline {
     stage('Example Build') {
       options {
         timeout(time: 120, unit: 'SECONDS')
+      input {
+        message "Enter something"
+        ok "Submit"
+        parameters {
+          string(defaultValue: 'Thug', name: 'FIRST_NAME')
+        }
       }
+      steps {
+        sh 'echo Hello World'
       }
+    }
+    stage('Example Deploy') {
+      when {
+        branch 'main'
       }
+      steps {
+        sh 'echo Done!'
+      }
+    }
+  }
 }
